@@ -1,0 +1,40 @@
+package finalnotepackage;
+
+public class StringVariablesNote {
+
+public static void main(String[] args) {
+int num = 100;
+system.out.println(num);
+system.out.println("num");
+
+
+String str = "DeepLearning";
+system.out.println(str);
+
+//어떤 숫자인지를 확인해야 한다면
+
+----------------------------------------
+int num = 100;
+system.out.println("num:"+num);
+int num1 = 200;
+system.out.println("num1:"+num1);
+----------------------------------------
+//숫자를 일일히 한줄씩 확인하기 귀찮다면
+----------------------------------------
+int num = 100;
+system.out.print("num:"+num+"   ");
+int num1 = 200;
+system.out.println("num1:"+num1);
+----------------------------------------
+String str = "100";
+char ch = 'a';
+int num = 200;
+String res = str + num;
+res += ch;
+(res = res + ch;)
+System.out.println(res);
+--------------------------------------
+
+
+
+
