@@ -1,4 +1,4 @@
-//변수의 교환법칙
+//변수의 교환법칙 + 
 
 package finalnotepackage;
 
@@ -13,5 +13,9 @@ public class VariableExchange {
 		num1 = num2;
 		num2 = temp;
 		System.out.print("num1:"+num1+" num2:"+num2);
+		
+		int remain = 10 % 3;
+		System.out.println("몫:" + (10 / 3));
+		System.out.println("나머지:" + remain);
 	}
 }
