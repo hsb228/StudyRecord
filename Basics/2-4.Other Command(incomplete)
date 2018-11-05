@@ -1,0 +1,26 @@
+/*
+<Continue>
+참고)p.101
+-명령문 뒤에 있는 나머지 명령문들을 스킵한다.
+*/
+(미완성)
+
+/*
+<Break>
+
+-이 명령문은 명령문에서 완전히 탈출할 때 쓴다.
+*/
+package finalnotepackage;
+
+public class Breaknote {
+	public static void main(String[] args) {
+		int sum = 0;
+		for (int i = 1; i < 11; i++) {
+			sum += i;
+			if (i == 5) {
+				break;
+			}
+		}
+		System.out.println(sum);
+	}
+}
