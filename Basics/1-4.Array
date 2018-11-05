@@ -36,3 +36,4 @@ public class ArrayNote {
 		System.out.println(arr[9]);
 	}
 }
+
