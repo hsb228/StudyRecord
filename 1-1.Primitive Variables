@@ -2,20 +2,20 @@ package practicepackage;
 
 public class NumberVariablesPractice {
 	public static void main(String[] args) {
-        byte a = 127;
-	short b = 32112;
-	int c = 2145764;
-	long d = -2147483648 ~ 2147483647 
-	char e = "m";
-        float f = 210.245;
-        double g = 120.11345;
-        boolean cond = true;
-	While(cond) {
-	    System.out.println("True");
-	    break;
-	    }
-	    System.out.println(a+b+c+d+e+f+g);
-     }
+		byte a = 127;
+		short b = 32112;
+		int c = 2145764;
+		long d = 234435613;
+		char e = 1;
+		float f = 314;
+		double g = 120.11345;
+		boolean cond = true;
+		while (cond) {
+			System.out.println("true");
+			break;
+		}
+		System.out.println(a + b + c + d + e + f + g);
+	}
 }
 
 //A Demonstration of Primitive Types Variables
@@ -33,8 +33,8 @@ long - 8byte,-9223372036854775808 ~ 9223372036854775807
 char - ,한 글자만 표시
 
 <부동소수점 타입>
-float -4byte,-3.4E+38의 근사값~3.4E+38의 근사값 
-double -8byte,-1.7E+308의 근사값~1.7E+308의 근사값
+float - 4byte,-3.4E+38의 근사값~3.4E+38의 근사값 
+double - 8byte,-1.7E+308의 근사값~1.7E+308의 근사값
 
 <boolean 타입>
 boolean - 1byte, true or false
