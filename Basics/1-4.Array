@@ -1,0 +1,31 @@
+/*
+<배열>
+
+-<변수>[] <배열 이름>= new <변수> [(배열의 크기)];
+ex)int[] arr = new int [5]
+
+-사용 시 arr[0],arr[1]하는 식으로 사용
+
+참조)p.70*/
+
+int[] arr = new int[10];
+arr[0] = 0;		
+arr[1] = 1;		
+arr[2] = 2;		
+arr[3] = 3;		
+arr[4] = 4;		
+arr[5] = 5;		
+arr[6] = 6;		
+arr[7] = 7;		
+arr[8] = 8;		
+arr[9] = 9;
+System.out.println(arr[0]);
+System.out.println(arr[1]);
+System.out.println(arr[2]);
+System.out.println(arr[3]);
+System.out.println(arr[4]);
+System.out.println(arr[5]);
+System.out.println(arr[6]);
+System.out.println(arr[7]);
+System.out.println(arr[8]);
+System.out.println(arr[9]);
