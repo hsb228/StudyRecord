@@ -1,0 +1,11 @@
+package practicepackage;
+
+public class HelloJavaPractice {
+
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+	}
+}
+
+//My first step as a JAVA programmer or...
+//a dead end with no escape route.
