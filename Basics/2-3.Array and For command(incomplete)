@@ -1,9 +1,8 @@
-//<for문을 이용한 배열 간략화>
+//<for문을 이용한 간략화>
 
 package finalnotepackage;
 
 public class ArrayForNote {
-
 	public static void main(String[] args) {
 		int[] arr = new int[10];
 		for (int i = 0; i < arr.length; i++) {
@@ -49,4 +48,3 @@ public class ForcommandSumNote {
 
 //2.향상된 for문
 (미완성)
-
