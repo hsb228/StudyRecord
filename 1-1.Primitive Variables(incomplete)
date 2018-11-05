@@ -1,0 +1,17 @@
+package practicepackage;
+
+public class NumberVariablesPractice {
+
+	public static void main(String[] args) {
+        int num1 = 100;
+        float c = 210;
+        double num2 = 120.10;
+        boolean cond = true;
+	    System.out.println(num1+num2);
+	}
+}
+
+//A Demonstration of Primitive Variables
+//Based on Java8 
+//Editor:Ecilpse 201809
+//(Incomplete)
