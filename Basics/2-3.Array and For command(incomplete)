@@ -48,3 +48,17 @@ public class ForcommandSumNote {
 
 //2.향상된 for문
 (미완성)
+
+//<for문으로 1부터 10까지 합치기>
+
+package finalnotepackage;
+
+public class Onetotensum {
+	public static void main(String[] args) {
+		int sum = 0;
+		for (int i = 1; i < 11; i++) {
+			sum += i;
+		}
+		System.out.println(sum);
+	}
+}
