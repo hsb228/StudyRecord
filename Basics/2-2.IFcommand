@@ -1,0 +1,41 @@
+/*<IF문>
+참조)p.79
+
+-if는 조건이 다 맞으면 바로 밑에 줄만 수행하고, 아니라면 아래쪽 줄만 수행한다.
+-중괄호로 블록 설정시 조건이 다 맞을 때만 블록 내용을 수행한다. 
+-맞는 조건이 없으면 바로 if문 바로 뒤에 줄을 수행한다.
+
+<if-else>
+-무조건 둘 중 하나만 수행한다.
+
+<if-else if>
+-조건이 다 맞는게 있는 것만 실행한다.*/
+
+package finalnotepackage;
+
+public class IFnote {
+	public static void main(String[] args) {
+
+		int num1 = 100;
+		int num2 = 200;
+
+		if (num1 == num2) {
+			System.out.println("한줄 수행");
+			System.out.println("2줄 수행");
+		}
+
+		if (num1 > num2) {
+			System.out.println("num1이 크다");
+		} else {
+			System.out.println("num1이 적다");
+		}
+
+		if (num1 > num2) {
+			System.out.println("num1이 크다");
+		} else if (num1 < num2) {
+			System.out.println("num2가 크다");
+		} else {
+			System.out.println("아니다 같다");
+		}
+	}
+}
