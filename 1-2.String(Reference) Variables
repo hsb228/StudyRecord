@@ -1,0 +1,12 @@
+package firstpackage;
+
+public class StringDigitDemo {
+	public static void main(String[] args) {
+		String str = "i";
+		str += " am";
+		str += " happy";
+		System.out.println(str);
+    	}
+}
+
+//A Demonstration of String Variables, one of the commonly used Reference type Variables.
