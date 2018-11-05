@@ -8,24 +8,31 @@ ex)int[] arr = new int [5]
 
 참조)p.70*/
 
-int[] arr = new int[10];
-arr[0] = 0;		
-arr[1] = 1;		
-arr[2] = 2;		
-arr[3] = 3;		
-arr[4] = 4;		
-arr[5] = 5;		
-arr[6] = 6;		
-arr[7] = 7;		
-arr[8] = 8;		
-arr[9] = 9;
-System.out.println(arr[0]);
-System.out.println(arr[1]);
-System.out.println(arr[2]);
-System.out.println(arr[3]);
-System.out.println(arr[4]);
-System.out.println(arr[5]);
-System.out.println(arr[6]);
-System.out.println(arr[7]);
-System.out.println(arr[8]);
-System.out.println(arr[9]);
+package finalnotepackage;
+
+public class ArrayNote {
+
+	public static void main(String[] args) {
+		int[] arr = new int[10];
+		arr[0] = 0;
+		arr[1] = 1;
+		arr[2] = 2;
+		arr[3] = 3;
+		arr[4] = 4;
+		arr[5] = 5;
+		arr[6] = 6;
+		arr[7] = 7;
+		arr[8] = 8;
+		arr[9] = 9;
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		System.out.println(arr[2]);
+		System.out.println(arr[3]);
+		System.out.println(arr[4]);
+		System.out.println(arr[5]);
+		System.out.println(arr[6]);
+		System.out.println(arr[7]);
+		System.out.println(arr[8]);
+		System.out.println(arr[9]);
+	}
+}
