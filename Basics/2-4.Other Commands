@@ -3,6 +3,7 @@
 참고)p.101
 -명령문 뒤에 있는 나머지 명령문들을 스킵한다.
 */
+
 package incompletepackage;
 
 public class ContinueNote {
@@ -10,7 +11,6 @@ public class ContinueNote {
 	public static void main(String[] args) {
 		for (int i = 1; i < 11; i++) {
 			if (i == 5) {
-				System.out.println("--->>5");
 				continue;
 			}
 			System.out.println(i);
