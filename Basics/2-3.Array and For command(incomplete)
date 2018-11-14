@@ -33,7 +33,6 @@ public class ImprovedForArrayNote {
 
 //<for문으로 배열의 합 구하기>
 
-//1.기존 for문
 package finalnotepackage;
 
 public class ForcommandSumNote {
@@ -46,15 +45,9 @@ public class ForcommandSumNote {
 		System.out.println(sum);
 	}
 }
-//2.향상된 for문
-
-
-
-
 
 //<for문으로 1부터 10까지 합치기>
 
-//1.기존 for문
 package finalnotepackage;
 
 public class ForOnetoTenSumNote {
@@ -67,5 +60,3 @@ public class ForOnetoTenSumNote {
 		System.out.println(sum);
 	}
 }
-//2.향상된 for문
-
