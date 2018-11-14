@@ -1,5 +1,5 @@
 
-//for문을 이용한 배열 요소의 합
+//<for문을 이용한 배열 요소의 합>
 //1.기존 for문
 
 package finalnotepackage;
@@ -32,3 +32,5 @@ public class ImprovedForArrayNote {
 			System.out.print(arr1+"  ");	
     }
 }
+
+//
