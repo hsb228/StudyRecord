@@ -5,6 +5,7 @@
 -배열을 쓸 때는 for반복문이 가장 적합하다.
 -반복문은 보통은 바로 다음 한줄만 수행하고 끝나므로, 2줄 이상 출력해야 할 경우 바로 옆에 중괄호로 묶는다.*/
 
+예제1) - for문 기본
 package finalnotepackage;
 
 public class LoopNote {
@@ -15,3 +16,5 @@ public class LoopNote {
 		}
 	}
 }
+
+
