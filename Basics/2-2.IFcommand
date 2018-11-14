@@ -9,8 +9,10 @@
 -무조건 둘 중 하나만 수행한다.
 
 <if-else if>
--조건이 다 맞는게 있는 것만 실행한다.*/
+-조건이 다 맞는게 있는 것만 실행한다.
+-마지막에 반드시 else를 붙여야 한다.*/
 
+예시 1) - if, if-else, if-else if의 기본 사용법
 package finalnotepackage;
 
 public class IFnote {
@@ -37,5 +39,37 @@ public class IFnote {
 		} else {
 			System.out.println("아니다 같다");
 		}
+	}
+}
+
+예시2) if문들을 이용한 간단한 프로그램
+
+package finalnotepackage;
+
+import java.util.Scanner;
+
+public class IFexample2Note {
+	private static Scanner scan;
+
+	public static void main(String[] args) {
+		scan = new Scanner(System.in);
+		System.out.print("age:");
+		String msg = "";
+		int age = 0;
+		while (age != 65) {
+			age = scan.nextInt();
+			if (age < 20)
+				msg = "10대";
+			else if (age < 30)
+				msg = "20대";
+			else if (age < 40)
+				msg = "3o대";
+			else if (age < 50)
+				msg = "40대";
+			else
+				msg = "50대 이상";
+			System.out.println(msg + "이군요.");
+		}
+		System.out.println("Error");
 	}
 }
