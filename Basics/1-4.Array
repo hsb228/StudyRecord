@@ -10,6 +10,7 @@ ex)int[] arr = new int [5]
 
 참조)p.70*/
 
+ex1) - 배열 기본
 package finalnotepackage;
 
 public class ArrayNote {
@@ -38,4 +39,21 @@ public class ArrayNote {
 		System.out.println(arr[9]);
 	}
 }
+
+ex2) - 스트링배열 기본 
+package finalnotepackage;
+
+public class StringArrayDemo {
+	public static void main (String[] args) {
+		String [] str= new String[5];
+	  	str[0] = "java";
+         	str[1] = "android";
+	 	str[2] = "tensorflow";
+        	str[3] = "jQuery";
+        	str[4] = "jsp";
+	}
+}	
+
+ex2-1)
+
 
