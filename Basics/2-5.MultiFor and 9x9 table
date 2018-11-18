@@ -1,0 +1,19 @@
+//2중 For문과 구구단
+ -2차원 행렬은 2개의 for문을 써야한다.
+ 
+ 예제1) - 작동 원리 기본
+ 
+package finalnotepackage;
+
+public class DoubleForBasicnote {
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				System.out.print(i + "*" + j + " ");
+			}
+			System.out.println();
+		}
+	}
+}
+
