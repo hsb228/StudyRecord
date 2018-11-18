@@ -32,9 +32,67 @@ public class ForAddSumnote {
 	}
 }
 
+//에제3 - 1부터 100까지 짝수와 홀수, 그리고 총합 구하기 
+<방법 1>
+package finalnotepackage;
+
+public class ForEOS1note {
+	public static void main(String[] args) {
+		int even = 0;
+		int odd = 0;
+		for (int i = 0; i < 101; i++) {
+			if ((i % 2) == 0) {
+				even += i;
+			} else {
+				odd += i;
+			}
+		}
+		System.out.println(even);
+		System.out.println(odd);
+		int sum = even + odd;
+		System.out.println(sum);
+	}
+}
+<방법 2>
+package finalnotepackage;
+
+public class ForEOS2note {
+
+	public static void main(String[] args) {
+		int even = 0;
+		int odd = 0;
+		int check = 0;
+		for (int i = 0; i < 101; i++) {
+			check = i % 2;
+			if (check == 0) {
+				even += i;
+			} else {
+				odd += i;
+			}
+		}
+		System.out.println(even);
+		System.out.println(odd);
+		int sum = even + odd;
+		System.out.println(sum);
+	}
+}
+
 //while과 while-for
 -배열 외에 경우에는 대부분 이 while을 쓴다.
 -while은 조건이 참일 경우에만 무한반복을 하며, 조건이 거짓이 되는 순간 바로 종료된다.
 
 //예제1) - while 기본
+package finalnotepackage;
 
+public class WhileBasicNote {
+
+	public static void main(String[] args) {
+		int i = 1;
+		int sum = 0;
+		while (i < 11) {
+			sum += i;
+			i++;
+		}
+		System.out.println("합:"+ sum);
+	}
+}
