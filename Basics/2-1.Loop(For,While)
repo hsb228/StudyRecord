@@ -82,6 +82,7 @@ public class ForEOS2note {
 -while은 조건이 참일 경우에만 무한반복을 하며, 조건이 거짓이 되는 순간 바로 종료된다.
 
 //예제1) - while 기본
+
 package finalnotepackage;
 
 public class WhileBasicNote {
@@ -96,3 +97,84 @@ public class WhileBasicNote {
 		System.out.println("합:"+ sum);
 	}
 }
+//예제2) - while문을 이용한 두 숫자까지의 모든 숫자 합치기
+
+package finalnotepackage;
+
+import java.util.Scanner;
+
+public class Whiletwonumbersumnote {
+	private static Scanner scan;
+
+	public static void main(String[] args) {
+		scan = new Scanner(System.in);
+		int num1 = 0;
+		int num2 = 0;
+		boolean cond = true;
+		while (cond) {
+			if ((num1 == 999))
+				cond = false;
+			else {
+				System.out.print("num1:");
+				num1 = scan.nextInt();
+				if (num1 != 999) {
+					System.out.print("num2:");
+					num2 = scan.nextInt();
+					int sum = 0;
+					for (int i = num1; i <= num2; i++) {
+						sum += i;
+					}
+					System.out.println("sum:" + sum);
+				}
+				System.out.println();
+			}
+		}
+		System.out.println("done");
+	}
+}
+
+//예제3 - While을 이용한 두 수의 합 구하기
+=================================================================
+package finalnotepackage;
+
+import java.util.Scanner;
+
+public class Whiletwonumbersumnote {
+	private static Scanner scan;
+
+	public static void main(String[] args) {
+		scan = new Scanner(System.in);
+		int num1 = 0;
+		int num2 = 0;
+		boolean cond = true;
+		while (cond) {
+			if ((num1 == 999))
+				cond = false;
+			else {
+				System.out.print("num1:");
+				num1 = scan.nextInt();
+				if (num1 != 999) {
+					System.out.print("num2:");
+					num2 = scan.nextInt();
+					int sum = 0;
+					for (int i = num1; i <= num2; i++) {
+						sum += i;
+					}
+					System.out.println("sum:" + sum);
+				}
+				System.out.println();
+			}
+		}
+		System.out.println("done");
+	}
+}
+=================================================================
+package finalnotepackage;
+
+public class Whiletwonumplus {
+	public int digitsum(int i, int j) {
+		int sum = i + j;
+		return sum;
+	}
+}
+=================================================================
