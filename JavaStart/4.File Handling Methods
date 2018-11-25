@@ -1,0 +1,162 @@
+
+ <Filereader> 
+
+-외부 파일을 읽어들이는 클래스로, 안에 반드시 파라미터가 하나 이상 있어야 한다.
+-이 클래스는 어시스트에서 Try-Catch문의 사용이 강제된다. 
+-한번 열은 파일은 손상 방지를 위해 반드시 닫아줘야 한다.
+
+참조)p.430
+
+예제1) - 파일 한글자씩 불러오기
+====================================================================
+package finalconstructnote;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileReaderNote {
+	void filereader() {
+		try {
+			FileReader reader = new FileReader("d:/UTIL/poem.txt");
+			while (true) {
+				try {
+					int data = reader.read();
+					if (data == -1) {
+						break;
+					} else {
+						char ch = (char) data;
+						System.out.print(ch);
+					}
+				} catch (FileNotFoundException e) {
+					System.out.println("error:" + e.getMessage());
+				}
+			}
+			reader.close();
+		} catch (IOException IOe) {
+			System.out.println("error:" + IOe.getMessage());
+		}
+	}
+}
+======================================================================
+<Fileinputstream>
+
+-파일을 라인 단위로 읽어낼 때 사용하는 클래스로, 전송되는 데이터가 많다보니 자동으로 Buffer 메모리를 사용한다. 
+-buffer: 전송 시 발생하는 처리 속도의 차이로 인한 문제를 해결하기 위해 직접 보내는 
+데이터를 받는 대신 전송 중간에 만들어지는 buffer 메모리를 통해 순서대로 읽어내는 방식으로 처리한다.  
+
+예제) - 파일 한줄씩 불러오기
+======================================================================
+package finalconstructnote;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
+public class FileReadLinenote {
+	private BufferedReader br;
+	void fileReadLide() {
+		try {
+			FileInputStream fs = new FileInputStream("d:/UTIL/poem.txt");
+			InputStreamReader is = new InputStreamReader(fs);
+			br = new BufferedReader(is);
+			String line = "";
+			try {
+				while ((line = br.readLine()) != null) {
+					System.out.println(line);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+======================================================================
+
+<FileWriter>
+
+-파일에 내용을 입력하고 output(주로 텍스트파일)으로 만드는 클래스로, DB와 연동할 때 
+DB에서 text 형식으로 오는 출력되는 데이터들을 처리할 때 사용한다.
+
+참조)p.437
+======================================================================
+ex)
+package finalconstructnote;
+
+import java.io.FileWriter;
+
+public class FileWrite {
+	void filewrite() {
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter("d:/UTIL/output.txt");
+			char arr[] = { 'k', 'o', 'r', 'e', 'a', ' ', 'j', 'a', 'v', 'a' };
+			for (int i = 0; i < arr.length; i++) {
+				writer.write(arr[i]);
+			}
+			writer.write(" deep learning");
+			writer.close();
+		} catch (Exception We) {
+			System.out.println("write error:" + We.getMessage());
+		}
+	}
+}
+======================================================================
+
+<Filesend>
+
+-파일을 다른 클래스로 보내는 클래스다.
+
+예제)
+======================================================================
+package finalconstructnote;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+
+public class FileSendNoteMain {
+
+	public static void main(String[] args) {
+		try {
+			FileInputStream fs = new FileInputStream("d:/UTIL/poem.txt");
+			InputStreamReader is = new InputStreamReader(fs);
+			BufferedReader br = new BufferedReader(is);
+			FileSendNote obj = new FileSendNote();
+			int result = obj.fileReceive(br);
+			if (result == 0) {
+				System.out.println("Error");
+			} else {
+				System.out.println("Fill your cravings with Circus of Values!");
+			}
+			System.out.println(result);
+		} catch (FileNotFoundException FNFe) {
+			FNFe.printStackTrace();
+		}
+	}
+}
+======================================================================
+package finalconstructnote;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class FileSendNote {
+	int fileReceive(BufferedReader br) {
+		int result = 1;
+		String line = "";
+		if (line.equals(""))
+			try {
+				while ((line = br.readLine()) != null)
+					System.out.println(line);
+			} catch (IOException e) {
+				result = 0;
+				e.printStackTrace();
+			}
+		return result;
+	}
+}
+======================================================================
