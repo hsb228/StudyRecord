@@ -8,6 +8,7 @@
 //-배열을 쓸 때는 for반복문이 가장 적합하다.
 
 //예제1) - for문 기본
+=================================================================
 package finalnotepackage;
 
 public class LoopNote {
@@ -18,7 +19,7 @@ public class LoopNote {
 		}
 	}
 }
-
+=================================================================
 //예제2) - 1부터 10까지의 합 구하기
 package finalnotepackage;
 
@@ -31,9 +32,10 @@ public class ForAddSumnote {
 		System.out.println(sum);
 	}
 }
-
+=================================================================
 //에제3 - 1부터 100까지 짝수와 홀수, 그리고 총합 구하기 
 <방법 1>
+=================================================================
 package finalnotepackage;
 
 public class ForEOS1note {
@@ -53,7 +55,9 @@ public class ForEOS1note {
 		System.out.println(sum);
 	}
 }
+=================================================================
 <방법 2>
+=================================================================
 package finalnotepackage;
 
 public class ForEOS2note {
@@ -76,12 +80,15 @@ public class ForEOS2note {
 		System.out.println(sum);
 	}
 }
+=================================================================
 
 //while과 while-for
 -배열 외에 경우에는 대부분 이 while을 쓴다.
 -while은 조건이 참일 경우에만 무한반복을 하며, 조건이 거짓이 되는 순간 바로 종료된다.
+-While은 그냥 사용하면 무한반복이 되므로 반드시 탈출할 명령문이 있어야한다.
 
-//예제1) - while 기본
+=================================================================
+//예제1) - while 기본1
 
 package finalnotepackage;
 
@@ -97,7 +104,62 @@ public class WhileBasicNote {
 		System.out.println("합:"+ sum);
 	}
 }
-//예제2) - while문을 이용한 두 숫자까지의 모든 숫자 합치기
+=================================================================
+//예제2) - while 기본2
+package objectpackage;
+
+public class Assembly {
+
+	public static void main(String[] args) {
+		while (true) {
+		System.out.println("--->");
+		}
+	}
+}
+=================================================================
+//예제3 - while로 1부터 10까지의 합 구하기 
+package objectpackage;
+
+public class Assembly {
+	public static void main(String[] args) {
+		int sum;
+		while (true) {
+			int i = 1;
+			sum = 0;
+			while (true) {
+				sum += i;
+				i++;
+				if (i > 10) {
+					break;
+			 	}
+			}
+			System.out.println(sum);
+		}
+	}
+}
+=================================================================
+//예제4 - while문에 boolean을 활용하여 1부터 10까지의 합 구하기
+package objectpackage;
+
+public class Assembly {
+
+	public static void main(String[] args) {
+		int i,sum;
+		boolean cond = true;
+		i = 1;
+		sum = 0;
+		while (cond) {
+			sum += i;
+			i++;
+			if (i > 10) {
+				cond = false;
+			}
+		}
+		System.out.println(sum);
+	}
+}
+=================================================================
+//예제5 - while문을 이용한 두 숫자까지의 모든 숫자 합치기
 
 package finalnotepackage;
 
@@ -132,8 +194,8 @@ public class Whiletwonumbersumnote {
 		System.out.println("done");
 	}
 }
-
-//예제3 - While을 이용한 두 수의 합 구하기
+=================================================================
+//예제6 - While을 이용한 두 수의 합 구하기
 =================================================================
 package finalnotepackage;
 
