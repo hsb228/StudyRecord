@@ -1,0 +1,29 @@
+<Try-Catch>
+
+-에러를 보이지 않게 하는 명령문으로, try문 실행 시 에러가 없으면 다음 줄을, 에러가 있으면 catch문으로 넘어간다.
+-catch문이 실행되면 에러가 예외처리가 되고, 에러가 보이지 않게 된다.
+-대체적으로 프로그램의 문법은 맞는 데 실행 시 프로그램 에러가 날 경우 발생한 에러를 찾아내고 예외처리를 하기 위해 쓴다.  
+
+<Finally>
+-Try-Catch의 결과와 관계없이 무조건 실행하는 명령문이다.
+
+참조)p.240
+
+예제)
+============================================================
+package finalnote2pack;
+
+public class TryCatchNote {
+	public static void main(String[] args) {
+		int a = 100;
+		try {
+			int sum = a / 0;
+			System.out.println("Success");
+		} catch (Exception e) {
+			System.out.println("Error:" + e.getMessage());
+		} finally {
+			System.out.println("finally....");
+		}
+	}
+}
+============================================================
