@@ -1,0 +1,67 @@
+*Scanner
+
+-scanner는 시스템에서 제공하는 변수로, 시스템 클래스임과 동시에 변수이기도 하다.
+-키보드 입력을 받기 때문에 실행후 키보드 입력을 해야 한다.
+
+-참조)p.89, p.179, p.183
+
+-예제1) - 기본
+======================================================================
+package objectpackage;
+
+import java.util.Scanner;
+
+public class Assembly {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		String msg = scan.nextLine();
+		System.out.println(msg);
+	}
+}
+======================================================================
+-예제2) - While과의 응용
+======================================================================
+package objectpackage;
+
+import java.util.Scanner;
+
+public class Assembly {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int num1=0;
+		while((num1 != 999)) {
+		System.out.print("num1:");
+		num1 = scan.nextInt();			
+		}
+	}
+}
+======================================================================
+예제3)- 두 숫자 합치기
+======================================================================
+package objectpackage;
+
+import java.util.Scanner;
+
+public class Assembly {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int num1 = 0;
+		int num2 = 0;
+		boolean cond = true;
+		while (cond) {
+			if ((num1 == 999) || (num2 == 999))
+				cond = false;
+			else {
+				System.out.print("num1:");
+				num1 = scan.nextInt();
+				System.out.print("num2:");
+				num2 = scan.nextInt();
+			}
+		}
+		System.out.println("Done");
+	}
+}
+======================================================================
