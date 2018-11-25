@@ -1,0 +1,60 @@
+//*String
+
+//-Spring 변수의 문자들은 .equals()를 사용해야 항상 정확한 값을 구할 수 있다.
+//참고)p.490
+================================================================
+ex1) 기존 for문 
+
+	public static void main(String[] args) {
+		String[] str = { "java", "android", "tensorflow", "jQuery", "jsp" };
+		for (int i = 0; i < str.length; i++) {
+			String res = str[i];
+			System.out.println(res);
+		}
+	}
+}
+
+================================================================
+ex2) 향상된 for문
+================================================================
+	public static void main(String[] args) {
+		String[] str = new String[5];
+		str[0] = "java";
+		str[1] = "android";
+		str[2] = "tensorflow";
+		str[3] = "jQuery";
+		str[4] = "jsp";
+		for (String str1 : str) {
+			System.out.println(str1);
+		}
+	}
+}
+
+================================================================
+ex3) 문제1
+================================================================
+String [] str= new String[5];
+str[0] = "java";
+str[1] = "android";
+str[2] = "tensorflow";
+str[3] = "jQuery";
+str[4] = "jsp";
+int roomno = 0;    
+for(int i=0;i<str.length;i++) {
+     if(str[i].equals("jsp")) { 
+        roomno = i;
+        break;
+        }	
+}
+System.out.println("roomno:"+roomno);
+================================================================
+ex4) equals 사용법
+================================================================
+String str1 = new String("하이");
+String str2 = new String("하이");
+if(str1.equals(str2)) {
+    System.out.println("같다");
+} else {
+    System.out.println("다르다");
+}
+================================================================
