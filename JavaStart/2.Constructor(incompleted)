@@ -6,7 +6,40 @@
 -생성자는 반드시 모든 클래스에 하나 이상은 존재해야 한다.
 -기본 생성자는 대부분의 경우 생략되어있다. 그리고 객체가 생성되고 딱 한번만 실행된다.
 -기본 생성자 안에 값을 넣으면 더 이상 자동 생략되는 기본 생성자로 취급되지 않는다.
+
+*메소드 오버로딩
 -같은 이름의 메소드라도 안의 변수가 틀리면 다른 메소드로 취급된다. 
--같은 메소드에 생성자가 다른 경우, 값이 동일해도 엄연히 다른 객체가 나온다. 
+-같은 메소드에 생성자가 다른 경우, 값이 동일해도 엄연히 다른 객체가 나온다.
 
 -참고)p.217~218*/
+
+예제) 
+================================================================
+package finalconstructnote;
+
+public class ConstructorExamplenotemain {
+
+	public static void main(String[] args) {
+		ConstructorExamplenote obj = new ConstructorExamplenote();
+		ConstructorExamplenote obj1 = new ConstructorExamplenote(100);
+		obj.constructTest();
+		obj1.constructTest();
+	}
+}
+================================================================
+package finalconstructnote;
+
+public class ConstructorExamplenote {
+	int num = 0;
+
+	ConstructorExamplenote() {
+	}
+	ConstructorExamplenote(int a) {
+		this.num = 100;
+		return;
+	}
+	void constructTest() {
+		System.out.println("num:" + num);
+	}
+}
+================================================================
