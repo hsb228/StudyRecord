@@ -15,12 +15,20 @@
 ex)void calledMethod()
 -return은 반환해야 하는 값에 맞는 유형의 변수로 돌려줘야 한다.
 -return으로 반환할 수 있는 값은 0개(void)에서 1개뿐이다.
-'
+
+*메소드 간의 정보교환
+
+-보내는 메소드의 값(파라미터)을 받는 메소드는 반드시 그의 값에 맞는 변수 타입으로 받아야한다.
+즉,보내는 메소드는 값만, 받는 메소드는 그 값에 맞는 변수 타입이 있어야한다. 
+-클래스나 메소드 내의 변수의 이름은 상관이 없다.(클래스->클래스,메소드 전부 해당)
+-이 방식으로는 반대쪽의 값을 받는 건 불가능하다.
+-한번에 여러개를 보낼 수도 있으며, 보내는 것이 너무 많으면 묶어서 레퍼런스 타입으로 보낸다.
+
 *기본적인 메소드 사용법
 (접근제한자)(return type) (메소드) {
 변수 선언
 return 변수;
-}  
+}
 */
 ====================================
 public int calledMeth(); {
@@ -29,7 +37,8 @@ sum= 100+200;
 return sum;
 }
 ====================================
-예제1-1) - 보낸 변수값 X, 반환값 X 
+
+//예제1-1) - 보낸 변수값 X, 반환값 X 
 =====================================================
 package finalnotemethodpack;
 
@@ -51,40 +60,79 @@ public class Objectexample11 {
 	}
 }
 =====================================================
-예제1-2) - 보낸 변수값 O, 반환값 X 
+
+//예제1-2) - 보낸 변수값 O, 반환값 X 
+=====================================================
+package finalnotemethodpack;
+
+public class Methodexample12main {
+
+	public static void main(String[] args) {
+		Methodexample12 obj = new Methodexample12();
+		int a = 100;
+		int b = 200;
+		obj.digitsum(a, b);
+	}
+}
+=====================================================
+package finalnotemethodpack;
+
+public class Methodexample12 {
+
+	void digitsum(int a, int b) {
+		int sum = a + b;
+		System.out.println(sum);
+	}
+}
 =====================================================
 
+//예제1-3) - 보낸 변수값 X, 반환값 O
+=====================================================
+package finalnotemethodpack;
 
+public class Methodexample13main {
 
+	public static void main(String[] args) {
+		Methodexample13 obj2 = new Methodexample13();
+		String msg = obj2.Birthyear();
+		System.out.println(msg);
+	}
+}
+=====================================================
+package finalnotemethodpack;
+
+public class Methodexample13 {
+
+	public String Birthyear() {
+		return "1992";
+	}
+}
 =====================================================
 
-
-
+//예제1-4)  - 보낸 변수값 O, 반환값 O
 =====================================================
+package finalnotemethodpack;
 
-
-예제1-3) - 메인클래스에서 값을 받아서 실행만 하는 경우.
+public class Methodexample14main {
+	public static void main(String[] args) {
+		Methodexample14 obj = new Methodexample14();
+		int num = 100;
+		String str = obj.digittoString(num);
+		System.out.println(str);
+	}
+}
 =====================================================
+package finalnotemethodpack;
 
+public class Methodexample14main {
+	public static void main(String[] args) {
+		Methodexample14 obj = new Methodexample14();
+		int num = 100;
+		String str = obj.digittoString(num);
+		System.out.println(str);
+	}
+}
 =====================================================
-
-=====================================================
-
-
-*메소드 간의 정보교환
-
--보내는 메소드의 값(파라미터)을 받는 메소드는 반드시 그의 값에 맞는 변수 타입으로 받아야한다.
-즉,보내는 메소드는 값만, 받는 메소드는 그 값에 맞는 변수 타입이 있어야한다. 
--클래스나 메소드 내의 변수의 이름은 상관이 없다.(클래스->클래스,메소드 전부 해당)
--이 방식으로는 반대쪽의 값을 받는 건 불가능하다.
--한번에 여러개를 보낼 수도 있으며, 보내는 것이 너무 많으면 묶어서 레퍼런스 타입으로 보낸다.
-
-*/
-예제1) -
-
-/*
-
-
 
 /*
 <접근제한자>
@@ -96,24 +144,26 @@ public class Objectexample11 {
 -protected: 같은 패키지(접근 제한자 생략시 이 것으로 적용)
 -public: 전 프로젝트 
 
-참고)p.367*/
-=====================================================
-예제1) - 
+참고)p.367
 
-
-
-
-
-
-=====================================================
-/*<Static>
+<Static>
 
 -Static을 선언한 변수와 메소드는 주기억에 저장되고 프로젝트 전체에 적용되며, 프로젝트가 종료 될 때까지 바뀌지 않는다.
 -Static이 붙으면 객체화 없이 바로 변수와 직접 사용이 가능하다. 그러나 남용 시 주기억 장치에 지나치게 많은 메모리를 차지하게 된다.
+*/
 
 =====================================================
-=====================================================
+예제1) - 
+package finalnotemethodpack;
 
+public class Staticnote {
+
+	static void Static() {
+		System.out.println("static 확인");
+	}
+}
+=====================================================
+/*
 <보너스>
 -숫자를 문자로 바꿀 때
 
@@ -124,3 +174,4 @@ p.246) - 메소드 오버로딩
 
 -클래스 안의 멤버 공간이 this공간인 이유는 this로 멤버 공간의 변수를 로컬 공간의 변수와 구분 할수 있기 때문이다.
 (참고로 멤버 공간은 변수 초기화가 필요하지 않지만, 초기화 시 초기화 된 값으로 변한다.)*/
+*/
