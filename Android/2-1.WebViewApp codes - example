@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         naver = findViewById(R.id.naver);
         google = findViewById(R.id.google);
         daum = findViewById(R.id.daum);
+        webView = findViewById(R.id.webView);
         naver.setOnClickListener(bClick);
         google.setOnClickListener(bClick);
         daum.setOnClickListener(bClick);
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                     appurl = "https://www.daum.net";
                     break;
             }
-            Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+            webView.loadUrl(appurl);
         }
     };
 }
