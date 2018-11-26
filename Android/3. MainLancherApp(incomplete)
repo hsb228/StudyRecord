@@ -1,7 +1,17 @@
+
 <content_main.xml>
 ==============================================================================================
- <!--start mainlayout-->
- <LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+    <!--start mainlayout-->
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
@@ -22,7 +32,10 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <ImageView
-                    android:src="@drawable/smith"
+                    android:id="@+id/iamge01"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_img01"
+                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
@@ -40,7 +53,10 @@
                 android:orientation="vertical"
                 android:gravity="center">
                      <ImageView
-                        android:src="@drawable/smith"
+                        android:id="@+id/image02"
+                        android:background="@drawable/selector_img02"
+                        android:layout_gravity="center"
+                        android:clickable="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                      <TextView
@@ -200,3 +216,59 @@
     <!--end mainlayout-->
 </android.support.constraint.ConstraintLayout>
 ==============================================================================================
+<select_img01.xml>
+
+==============================================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/smith"/>
+    <item android:state_focused="true" android:drawable="@drawable/smith"/>
+    <item android:state_selected="true" android:drawable="@drawable/smith_s"/>
+    <item android:drawable="@drawable/smith_s"/>
+</selector>
+==============================================================================================
+
+<select_img02.xml>
+==============================================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/smith_s"/>
+    <item android:state_focused="true" android:drawable="@drawable/smith_s"/>
+    <item android:state_selected="true" android:drawable="@drawable/smith"/>
+    <item android:drawable="@drawable/smith"/>
+</selector>
+==============================================================================================
+<MainActivity.java>
+
+==============================================================================================
+
+public class MainActivity extends AppCompatActivity {
+    ImageView image02;
+    ImageView image01;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        image02 = findViewById(R.id.image02);
+        image01 = findViewById(R.id.iamge01);
+        image01.setOnClickListener(bclick);
+        image02.setOnClickListener(bclick);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+    Button.OnClickListener bclick = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+        }
+    };
+    ==============================================================================================
