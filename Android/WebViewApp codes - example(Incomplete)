@@ -1,0 +1,86 @@
+
+<AndroidManifest.xml>
+===================================================================================
+<uses-permission android:name="android.permission.INTERNET">
+</uses-permission>
+===================================================================================
+
+<MainActivity.xml>
+===================================================================================
+public class MainActivity extends AppCompatActivity {
+    Button naver;
+    Button google;
+    Button daum;
+    WebView webView;
+    private String appurl = "";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        naver = findViewById(R.id.naver);
+        google = findViewById(R.id.google);
+        daum = findViewById(R.id.daum);
+        naver.setOnClickListener(bClick);
+        google.setOnClickListener(bClick);
+        daum.setOnClickListener(bClick);
+    }
+    Button.OnClickListener bClick = new Button.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            String msg="";
+            switch (v.getId()){
+                case R.id.naver:
+                    appurl = "https://www.naver.com";
+                    break;
+                case R.id.google:
+                    appurl = "https://www.google.com";
+                    break;
+                case R.id.daum:
+                    appurl = "https://www.daum.net";
+                    break;
+            }
+            Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+        }
+    };
+}
+===================================================================================    
+
+<activity_main.xml>
+===================================================================================
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:weightSum="4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/naver"
+                android:layout_weight="1"
+                android:text="Naver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/google"
+                android:layout_weight="1"
+                android:text="Google"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/daum"
+                android:layout_weight="1"
+                android:text="Daum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </WebView>
+        <!--end menulayout on row1-->
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
+===================================================================================
