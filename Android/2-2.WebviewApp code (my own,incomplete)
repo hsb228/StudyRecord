@@ -1,0 +1,49 @@
+<activity_main.xml>
+
+<LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/naverbutton"
+                android:background="#030"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="#0f0"
+                android:text="Naver"
+                android:textAllCaps="false"
+                />
+            <Button
+                android:id="@+id/googlebutton"
+                android:background="#f00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="#00f"
+                android:text="Google"
+                android:textAllCaps="false"
+                />
+            <Button
+                android:id="@+id/daumbutton"
+                android:background="#36f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="#690"
+                android:text="Daum"
+                android:textAllCaps="false"
+                />
+        </LinearLayout>
+         <!--end menulayout on row1-->
+         <!--start webviewlayout on row2-->
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+             >
+        </WebView>
+        <!--end webviewlayout on row2-->
+        
+        
+        
