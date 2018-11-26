@@ -1,0 +1,230 @@
+<MainActivity.xml>
+======================================================================================================
+public class MainActivity extends AppCompatActivity {
+    Button save;
+    Button cancel;
+    TextView textview;
+    RadioGroup gender;
+    RadioButton male;
+    CheckBox hobby1;
+    CheckBox hobby2;
+    CheckBox hobby3;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        save = findViewById(R.id.save);
+        cancel = findViewById(R.id.cancel);
+        textview = findViewById(R.id.textview);
+        gender = findViewById(R.id.gender);
+        male = findViewById(R.id.male);
+        male.setChecked(true);
+        hobby1 = findViewById(R.id.hobby1);
+        hobby2 = findViewById(R.id.hobby2);
+        hobby3 = findViewById(R.id.hobby3);
+        save.setOnClickListener(bClick);
+        cancel.setOnClickListener(bClick);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+        });
+    }
+    Button.OnClickListener bClick = new Button.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            String clickmsg = "";
+            switch (v.getId()) {
+                case R.id.save:
+                    int radioID = gender.getCheckedRadioButtonId();
+                    RadioButton selectedgender=gender.findViewById(radioID);
+                    String str = (String) selectedgender.getText();
+                    textview.setText("성별:"+selectedgender.getText());
+                    textview.setTextColor(Color.RED);
+                    textview.setTextSize(20);
+                    break;
+                case R.id.cancel:
+                    String hobby="";
+                    if(hobby1.isChecked())
+                        hobby += hobby1.getText();
+                    if(hobby2.isChecked())
+                        hobby += " " + hobby2.getText();
+                    if(hobby3.isChecked())
+                        hobby += " " + hobby3.getText();
+                    textview.setText(hobby);
+                    textview.setTextColor(Color.BLUE);
+                    textview.setTextSize(20);
+                    break;
+                }
+                //Toast.makeText(MainActivity.this,clickmsg,Toast.LENGTH_LONG).show();
+            }
+        };
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}
+======================================================================================================
+<content_main.xml>
+======================================================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+    <!--MainScreen-->
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="#fff">
+        <!--Start of row1-->
+        <!--Button Box-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:text="@string/deep"/>
+            <!--Radiobutton Group Box-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioGroup
+                    android:id="@+id/gender"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="male" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="female" />
+                </RadioGroup>
+            </LinearLayout>
+            <!--Checkbox box-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/hobby1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="축구"/>
+                <CheckBox
+                    android:id="@+id/hobby2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="야구"/>
+                <CheckBox
+                    android:id="@+id/hobby3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="농구"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- end of row1-->
+        <!--start of row2-->
+        <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+            <Button
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="확인"/>
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="취소"/>
+        </LinearLayout>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/phone_arrays">
+        </Spinner>
+        <AnalogClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TimePicker>
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </DatePicker>
+        <!--end of row2-->
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            >
+            <Button
+                android:text="상대1"
+                android:id="@+id/centerbutton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <Button
+                android:layout_toRightOf="@id/centerbutton1"
+                android:text="상대2"
+                android:id="@+id/centerbutton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    </ScrollView>
+    <!--end of Mainscreen-->
+</android.support.constraint.ConstraintLayout>
+======================================================================================================
