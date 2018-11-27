@@ -274,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()){
                 case R.id.image1:
                     Intent intent = new Intent(MainActivity.this,IntentActivity.class);
+                    intent.putExtra("name","kor");
+                    intent.putExtra("pass","111");
                     startActivity(intent);
                     break;
             }
@@ -284,12 +286,20 @@ public class MainActivity extends AppCompatActivity {
  
 ==============================================================================================
 public class IntentActivity extends AppCompatActivity {
-
+Button close;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intent);
-    }
+        close=findViewById(R.id.close);
+        close.setOnClickListener(bClick);
+        }
+         Button.OnClickListener bClick = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    };
 }
 ==============================================================================================
 <Activity_Intent.xml>
@@ -310,3 +320,21 @@ public class IntentActivity extends AppCompatActivity {
 
 </android.support.constraint.ConstraintLayout>
 ==============================================================================================
+
+<extra (to:MainActivity.xml>
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("onStart...","onStart...");
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("onRestart...","onRestart...");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("onStop...", "onStop...");
+    }
