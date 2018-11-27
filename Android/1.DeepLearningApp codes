@@ -228,3 +228,19 @@ public class MainActivity extends AppCompatActivity {
     <!--end of Mainscreen-->
 </android.support.constraint.ConstraintLayout>
 ======================================================================================================
+<String.xml>
+
+======================================================================================================
+<resources>
+    <string name="app_name">DeepLearning App</string>
+    <string name="action_settings">Settings</string>
+    <string name="deep">Deep Learning \n Java App</string>
+    <string-array name = "phone_arrays">
+    <item>010</item>
+    <item>011</item>
+    <item>016</item>
+    <item>017</item>
+    <item>019</item>
+    </string-array>
+</resources>
+======================================================================================================
