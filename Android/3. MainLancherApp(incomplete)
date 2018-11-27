@@ -241,19 +241,20 @@
 <MainActivity.java>
 
 ==============================================================================================
-
 public class MainActivity extends AppCompatActivity {
-    ImageView image02;
-    ImageView image01;
-
+    ImageView image1;
+    ImageView image2;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        image02 = findViewById(R.id.image02);
-        image01 = findViewById(R.id.iamge01);
-        image01.setOnClickListener(bclick);
-        image02.setOnClickListener(bclick);
+        image1 = findViewById(R.id.image1);
+        image2 = findViewById(R.id.image2);
+
+        image1.setOnClickListener(bClick);
+        image2.setOnClickListener(bClick);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -266,9 +267,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    Button.OnClickListener bclick = new Button.OnClickListener() {
+    Button.OnClickListener bClick = new Button.OnClickListener(){
+
         @Override
         public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.image1:
+                    Intent intent = new Intent(MainActivity.this,IntentActivity.class);
+                    startActivity(intent);
+                    break;
+            }
         }
     };
-    ==============================================================================================
+==============================================================================================
+<IntentActivity.java>
+ 
+==============================================================================================
+public class IntentActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_intent);
+    }
+}
+==============================================================================================
+<Activity_Intent.xml>
+
+==============================================================================================
+ <?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IntentActivity">
+    <Button
+        android:id="@+id/close"
+        android:text="close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>
+==============================================================================================
