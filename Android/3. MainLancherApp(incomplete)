@@ -1025,22 +1025,1208 @@ public class ZoomTextActivity extends AppCompatActivity {
 
 =========================================================================================================================================
 
-
-
-=========================================================================================================================================
+<SQLiteCheckActivity.java>
 
 =========================================================================================================================================
 
-=========================================================================================================================================
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+//SQL이 정상적으로 작동하는 확인하는 엑티비티
+public class SQLiteCheckActivity extends AppCompatActivity {
+    Button read;
+    Button write;
+    Button close;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sqlite_check);
+        read = findViewById(R.id.read);
+        write = findViewById(R.id.write);
+        close = findViewById(R.id.close);
+        read.setOnClickListener(bclick);
+        write.setOnClickListener(bclick);
+        close.setOnClickListener(bclick);
+
+    }
+    Button.OnClickListener bclick = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.read:
+                    selectDB();
+                    break;
+                case R.id.write:
+                    insertDB();
+                    break;
+                case R.id.close:
+                    finish();
+                    break;
+            }
+        }
+    };
+    //데이터베이스에 데이터를 제대로 읽어오는지 확인하는 메소드
+    private void selectDB() {
+        SQLiteDAO obj = new SQLiteDAO(this);
+        SQLiteDatabase db = obj.getReadableDatabase();
+    }
+    //데이터베이스에 새로운 데이터가 써지는지 확인하는 메소드
+    private void insertDB(){
+        SQLiteDAO obj = new SQLiteDAO(this);
+        SQLiteDatabase db = obj.getWritableDatabase();
+    }
+}
 
 =========================================================================================================================================
 
-=========================================================================================================================================
+<activity_sqlite_check.xml>
 
 =========================================================================================================================================
 
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SQLiteCheckActivity">
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/read"
+            android:text="Read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/write"
+            android:text="Write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/close"
+            android:text="Close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+
 =========================================================================================================================================
 
+<SQLiteDAO.java(incomplete)>
+
+=========================================================================================================================================
+
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+//데이터베이스 내의 테이블 생성과 수정을 동시에 수행해주는 DAO
+public class SQLiteDAO extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "deeplearn.db";
+    private static final int DATABASE_VERSION = 4;
+    private Context mContext;
+    public SQLiteDAO(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
+    //새로 테이블을 생성시
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Log.d("->onCreate","->onCreate");
+        StringBuilder sb = new StringBuilder();
+        sb.append("create table member (_id INTEGER PRIMARY KEY AUTOINCREMENT,");
+        sb.append("name varchar,passwd varchar,image varchar)");
+        db.execSQL(sb.toString());
+    }
+    //기존의 테이블을 업데이트 할 시(database version을 바꿔줘야 작동)
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table if exists member");
+        Log.d("->onUpgrade","->onUpgrade");
+        onCreate(db);
+    }
+}
+
+=========================================================================================================================================
+
+<MemberActivity.java>
+
+=========================================================================================================================================
+
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+//회원관리 앱의 메인 액티비티
+public class MemberActivity extends AppCompatActivity {
+    Button input;
+    Button close;
+    Context context;
+    AlertDialog alertDialog;
+    ListView listView;
+    TextView imagePath;
+    ImageView image;
+    EditText Id;
+    EditText Name;
+    EditText Passwd;
+    View alertLayout;
+    LayoutInflater inflater;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_member);
+        input = findViewById(R.id.input);
+        close = findViewById(R.id.close);
+
+        inflater = getLayoutInflater();
+        alertLayout = inflater.inflate(R.layout.activity_memberupdate, null);
+
+        image = alertLayout.findViewById(R.id.image00);
+        imagePath =alertLayout.findViewById(R.id.imagePath);
+        Id = alertLayout.findViewById(R.id.idedit);
+        Name = alertLayout.findViewById(R.id.nameedit);
+        Passwd = alertLayout.findViewById(R.id.passedit);
+
+        context = MemberActivity.this;
+        listView = findViewById(R.id.listview);
+        input.setOnClickListener(click);
+        close.setOnClickListener(click);
+
+        //리스트뷰
+        SQLiteDAO obj = new SQLiteDAO(this);
+        SQLiteDatabase db = obj.getReadableDatabase();
+        String sql = "select * from member";
+        Cursor cursor = db.rawQuery(sql, null);
+        final ArrayList<HashMap<String, String>> userList = new ArrayList<>();
+        HashMap<String, String> data;
+        while (cursor.moveToNext()) {
+            data = new HashMap<>();
+            data.put("_id", cursor.getString(0));
+            data.put("name", cursor.getString(1));
+            data.put("passwd", cursor.getString(2));
+            data.put("image", cursor.getString(3));
+            userList.add(data);
+        }
+        cursor.close();
+        ListAdapter adapter = new SimpleAdapter(MemberActivity.this, userList, R.layout.member_list_row, new String[]{"_id", "name", "passwd", "image"},
+                new int[]{R.id.rowid, R.id.rowname, R.id.rowpasswd, R.id.rowimage});
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                memberGet(userList.get(position).get("_id"));
+            }
+        });
+    }
+
+    private void memberGet(String selected) {
+            SQLiteDAO obj = new SQLiteDAO(this);
+            SQLiteDatabase db = obj.getReadableDatabase();
+            int key = Integer.parseInt(selected);
+            String sql = "select * from member where _id=" + key + " ";
+            Cursor cursor = db.rawQuery(sql, null);
+            MemberBean data = new MemberBean();
+            if (cursor.moveToNext()) {
+                data.setId(cursor.getInt(0));
+                data.setName(cursor.getString(1));
+                data.setPasswd(cursor.getString(2));
+                data.setImage(cursor.getString(3));
+        }
+        cursor.close();
+
+        Button digclose = alertLayout.findViewById(R.id.digclose);
+        Button digupdate = alertLayout.findViewById(R.id.digupdate);
+        Button capture = alertLayout.findViewById(R.id.capture);
+        Button find = alertLayout.findViewById(R.id.find);
+
+        Id.setText(data.getId() + "");
+        Id.setEnabled(false);
+        Name.setText(data.getName().toString());
+        Passwd.setText(data.getPasswd());
+        imagePath.setText(data.getImage());
+        File imgFile = new File(data.getImage());
+        if (imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            image.setImageBitmap(myBitmap);
+        }
+            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            alert.setTitle("Member Update");
+            alert.setView(alertLayout);
+            alert.setCancelable(false);
+            alertDialog = alert.create();
+            alertDialog.show();
+            digclose.setOnClickListener(aclick);
+            digupdate.setOnClickListener(aclick);
+            capture.setOnClickListener(aclick);
+            find.setOnClickListener(aclick);
+    }
+
+    Button.OnClickListener aclick = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.digclose:
+                    alertDialog.dismiss();
+                    break;
+                case R.id.digupdate:
+                    memberupdate();
+                    break;
+                case R.id.capture:
+                    takePhoto();
+                    break;
+                case R.id.find:
+                    findPhoto();
+                    break;
+            }
+        }
+    };
+    Button.OnClickListener click = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.input:
+                    Intent intent1 = new Intent(MemberActivity.this, MemberUpdate.class);
+                    startActivityForResult(intent1,500);
+                    break;
+                case R.id.close:
+                    finish();
+                    break;
+            }
+        }
+    };
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 101);
+        }
+    }
+    public File createImageFile() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        File imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "files");
+
+        if (!storageDir.exists()) {
+            storageDir.mkdirs();
+        }
+        imageFile = new File(storageDir, imageFileName);
+        return imageFile;
+    }
+    private void findPhoto() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 102);
+    }
+    //ActivityForResult를 실행시 작업을 처리하는 메소드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //사진을 찍은 후 변환해서 저장
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap=bitmapResize(imageBitmap);
+            image.setImageBitmap(imageBitmap);
+            File savingfile = createImageFile();
+            //찍은 사진의 경로 스트링으로 가져오기
+            imagePath.setText(savingfile.toString());
+            try {
+                FileOutputStream fos = new FileOutputStream(savingfile);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestCode == 102 && resultCode == RESULT_OK) {
+            try {
+                InputStream in = getContentResolver().openInputStream(data.getData());
+                Bitmap bitimage = bitmapResize(BitmapFactory.decodeStream(in));
+
+                image.setImageBitmap(bitimage);
+                Uri originalUri = data.getData();
+
+                Cursor imageCursor = getContentResolver().query(originalUri,null,null,  null, null);
+                String realPath = "";
+
+                if (imageCursor == null) {
+                    realPath = originalUri.getPath();
+                } else {
+                    imageCursor.moveToFirst();
+                    int idx = imageCursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    Log.d("", "column:"+imageCursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
+                    realPath = imageCursor.getString(idx);
+                }
+                imagePath.setText(realPath);
+                imageCursor.close();
+                in.close();
+            } catch (Exception e) {
+            }
+        }
+        if(requestCode == 105 && resultCode == 105 ) {
+            Membershow();
+        }
+    }
+    private Bitmap bitmapResize(Bitmap bitmap) {
+        int MAX_ALLOWED_RESOLUTION = 1024;
+        int outWidth;
+        int outHeight;
+        int inWidth = bitmap.getWidth();
+        int inHeight = bitmap.getHeight();
+        if(inWidth > inHeight){
+            outWidth = MAX_ALLOWED_RESOLUTION;
+            outHeight = (inHeight * MAX_ALLOWED_RESOLUTION) / inWidth;
+        } else {
+            outHeight = MAX_ALLOWED_RESOLUTION;
+            outWidth = (inWidth * MAX_ALLOWED_RESOLUTION) / inHeight;
+        }
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+        return resizedBitmap;
+    }
+    private void memberupdate() {
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setMessage("수정하시겠습니까 ?").setCancelable(false)
+                .setPositiveButton("No",
+                new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+                }).setNegativeButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        memberUpdateDB();
+                        dialog.cancel();
+                        Intent intent = new Intent(MemberActivity.this,MemberActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = alt_bld.create();
+        // Title for AlertDialog
+        alert.setTitle("Update");
+        alert.setIcon(R.drawable.update);
+        // Icon for AlertDialog
+        alert.show();
+    }
+    private void memberUpdateDB() {
+        SQLiteDAO obj = new SQLiteDAO(this);
+        SQLiteDatabase db = obj.getWritableDatabase();
+        int key = Integer.parseInt(Id.getText().toString());
+        StringBuilder sql =  new StringBuilder();
+        sql.append("update member set ");
+        sql.append("name='"+Name.getText().toString()+"',");
+        sql.append("passwd='"+Passwd.getText().toString()+"',");
+        sql.append("image='"+imagePath.getText().toString()+"' ");
+        sql.append("where _id="+key+" ");
+        db.execSQL(sql.toString());
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(MemberActivity.this,"Resume...",Toast.LENGTH_SHORT).show();
+    }
+    public void Membershow() {
+        SQLiteDAO obj = new SQLiteDAO(this);
+        SQLiteDatabase db = obj.getReadableDatabase();
+        String sql = "select * from member";
+        Cursor cursor = db.rawQuery(sql, null);
+        final ArrayList<HashMap<String, String>> userList = new ArrayList<>();
+        HashMap<String, String> data;
+        while (cursor.moveToNext()) {
+            data = new HashMap<>();
+            data.put("_id", cursor.getString(0));
+            data.put("name", cursor.getString(1));
+            data.put("passwd", cursor.getString(2));
+            data.put("image", cursor.getString(3));
+            userList.add(data);
+        }
+        cursor.close();
+        ListAdapter adapter = new SimpleAdapter(MemberActivity.this, userList, R.layout.member_list_row, new String[]{"_id", "name", "passwd", "image"},
+                new int[]{R.id.rowid, R.id.rowname, R.id.rowpasswd, R.id.rowimage});
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                memberGet(userList.get(position).get("_id"));
+            }
+        });
+    }
+}
+
+=========================================================================================================================================
+
+<activity_member.xml>
+
+=========================================================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MemberActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:background="#000"
+            android:weightSum="2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/input"
+                android:text="가입"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/close"
+                android:text="닫기"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/listview"
+            android:background="#bbb"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </ListView>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+=========================================================================================================================================
+
+<MemberUpdate.java>
+
+=========================================================================================================================================
+
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+//회원관리 앱 내부의 회원가입 액티비티
+public class MemberUpdate extends AppCompatActivity {
+    //바인딩
+    Button capture;
+    Button digupdate;
+    Button digclose;
+    Button find;
+    TextView imagePath;
+    EditText idedit;
+    EditText nameedit;
+    EditText passedit;
+
+    final Context context = this;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_memberupdate);
+        //바인딩
+        digupdate = findViewById(R.id.digupdate);
+        digclose = findViewById(R.id.digclose);
+        capture = findViewById(R.id.capture);
+        find = findViewById(R.id.find);
+        imagePath = findViewById(R.id.imagePath);
+        idedit = findViewById(R.id.idedit);
+        nameedit = findViewById(R.id.nameedit);
+        passedit = findViewById(R.id.passedit);
+        //버튼 설정
+        digupdate.setOnClickListener(bclick);
+        digclose.setOnClickListener(bclick);
+        capture.setOnClickListener(bclick);
+        find.setOnClickListener(bclick);
+    }
+    //클릭 리스너에 버튼에 따른 동작 수행 설정
+    Button.OnClickListener bclick = new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.digupdate:
+                    insertMember();
+                    break;
+                case R.id.digclose:
+                    finish();
+                    break;
+                case R.id.capture:
+                    takePhoto();
+                    break;
+                case R.id.find:
+                    findPhoto();
+                    break;
+            }
+        }
+    };
+    //텍스트 창에 입력 후 확인 과정까지
+    private void insertMember() {
+        String chkmsg = "- 입력시 필수사항 -\n\n";
+        if (idedit.getText().toString().equals(""))
+            chkmsg +="아이디를 입력하세요!\n";
+        if (nameedit.getText().toString().equals(""))
+            chkmsg +="이름를 입력하세요!\n";
+        if (passedit.getText().toString().equals(""))
+            chkmsg +="비밀번호를 입력하세요!\n";
+        AlertDialog.Builder alert= new AlertDialog.Builder(context);
+        if(chkmsg.equals("- 입력시 필수사항 -\n\n")) {
+            alert.setMessage("저장하시겠습니까?");
+            alert.setCancelable(false);
+            alert.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alert.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    insertDB();
+                }
+            });
+        } else  {
+            alert.setMessage(chkmsg);
+            alert.setCancelable(false);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    return;
+                }
+            });
+        }
+        AlertDialog alertDialog = alert.create();
+        alertDialog.show();
+    }
+    //확인한 정보를 DB에 입력하는 메소드
+    private void insertDB() {
+        SQLiteDAO obj = new SQLiteDAO(this);
+        SQLiteDatabase db = obj.getWritableDatabase();
+        //입력할 DB 명령어
+        StringBuilder sql = new StringBuilder();
+        sql.append("insert into member(");
+        sql.append("name,passwd,image");
+        sql.append(")values(");
+        sql.append(" '"+ nameedit.getText().toString()+"',");
+        sql.append(" '"+ passedit.getText().toString()+"',");
+        sql.append(" '"+ imagePath.getText().toString()+"'");
+        sql.append(")");
+        try {
+            db.execSQL(sql.toString());
+            Intent intent = new Intent();
+            setResult(105,intent);
+            finish();
+        } catch (Exception e) {
+            Log.d("DB insert err:"+e.getMessage(),"error:"+e.getMessage());
+        }
+    }
+    //카메라를 불러온 후 사진을 찍는 메소드
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 101);
+        }
+    }
+    //갤러리의 사진을 찾아서 보여주기
+    private void findPhoto() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 102);
+    }
+    //사진을 찍은 후 변환하기(지정된 폴더가 없을 시 자동만들기 포함)
+    public File createImageFile() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        File imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "files");
+
+        if (!storageDir.exists()) {
+            storageDir.mkdirs();
+        }
+        imageFile = new File(storageDir, imageFileName);
+        return imageFile;
+    }
+    //ActivityForResult를 실행시 작업을 처리하는 메소드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //사진을 찍은 후 변환해서 저장
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap=bitmapResize(imageBitmap);
+            ((ImageView) findViewById(R.id.image00)).setImageBitmap(imageBitmap);
+            File savingfile = createImageFile();
+            //찍은 사진의 경로 스트링으로 가져오기
+            imagePath.setText(savingfile.toString());
+            try {
+                FileOutputStream fos = new FileOutputStream(savingfile);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        //찾기에서 찾은 사진을 바로 맨 위에 이미지 뷰에 집어넣기
+        if (requestCode == 102 && resultCode == RESULT_OK) {
+            try {
+                InputStream in = getContentResolver().openInputStream(data.getData());
+                Bitmap bitimage = BitmapFactory.decodeStream(in);
+                ((ImageView) findViewById(R.id.image00)).setImageBitmap(bitimage);
+                //선택된 이미지를 이미지뷰에 세팅
+                Uri originalUri = data.getData();
+                String pathsegment[] = originalUri.getLastPathSegment().split(":");
+                String id = pathsegment[0];
+                String[] imageColumns = { MediaStore.Images.Media.DATA };
+
+                Cursor imageCursor = getContentResolver().query(originalUri, imageColumns,
+                        MediaStore.Images.Media._ID + "=" + id, null, null);
+                String realPath="";
+
+                if (imageCursor.moveToFirst()) {
+                    realPath = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                }
+                imagePath.setText(realPath);
+
+                in.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+    //찍은 사진의 크기를 줄이는 메소드
+    private Bitmap bitmapResize(Bitmap bitmap) {
+        int MAX_ALLOWED_RESOLUTION = 1024;
+        int outWidth;
+        int outHeight;
+        int inWidth = bitmap.getWidth();
+        int inHeight = bitmap.getHeight();
+        if(inWidth > inHeight){
+            outWidth = MAX_ALLOWED_RESOLUTION;
+            outHeight = (inHeight * MAX_ALLOWED_RESOLUTION) / inWidth;
+        } else {
+            outHeight = MAX_ALLOWED_RESOLUTION;
+            outWidth = (inWidth * MAX_ALLOWED_RESOLUTION) / inHeight;
+        }
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+        return resizedBitmap;
+    }
+}
+
+=========================================================================================================================================
+
+<activity_memberupdate.xml>
+
+=========================================================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MemberUpdate">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image00"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/egg"
+            app:civ_border_color="#FF0"
+            app:civ_border_width="2dp" />
+        <TextView
+            android:id="@+id/imagePath"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+            <Button
+                android:id="@+id/capture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="찍기"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/find"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="찾기"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ID"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:layout_marginRight="10dp"/>
+
+            <EditText
+                android:id="@+id/idedit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:ems="7"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="NAME"
+                android:textAlignment="center"
+                android:layout_marginRight="10dp"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/nameedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:ems="7"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/passwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:text="Passwd"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/passedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:ems="7"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="160dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/digupdate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="확인 및 수정"
+                android:textAlignment="center" />
+            <Button
+                android:id="@+id/digclose"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="취소"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
+
+=========================================================================================================================================
+
+<member_list_row.xml>
+
+=========================================================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="10">
+        <Button
+            android:id="@+id/confirm"
+            android:text="확인"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/rowid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/rowimage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="2"
+            android:src="@drawable/egg"
+            app:civ_border_color="#FF0"
+            app:civ_border_width="1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/rowname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/rowpasswd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2" />
+        <Button
+            android:id="@+id/delete"
+            android:text="삭제"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
+</LinearLayout>
+
+=========================================================================================================================================
+
+<MemberBean.java>
+
+=========================================================================================================================================
+
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class MemberBean implements Serializable {
+
+    private int Id;
+    private String name;
+    private String Passwd;
+    private String Image;
+    private String email;
+    private String password;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getPasswd() {
+        return Passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        Passwd = passwd;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
+=========================================================================================================================================
+
+<ListViewActivity.java>
+
+========================================================================================================================================
+=
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import java.util.ArrayList;
+
+public class ListViewActivity extends AppCompatActivity {
+    ListView listView;
+    Button close;
+    TextView selecteditem;
+    ArrayAdapter<String> listAdadpter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_view);
+        listView = findViewById(R.id.listview);
+        close = findViewById(R.id.close);
+        selecteditem = findViewById(R.id.selecteditem);
+        close.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("Java");
+        arrayList.add("Oracle");
+        arrayList.add("Mysql");
+        arrayList.add("Androidstudio");
+        arrayList.add("Genymotion");
+        arrayList.add("Android");
+        arrayList.add("Linux");
+        arrayList.add("html");
+        arrayList.add("Javascript");
+        arrayList.add("SQlite");
+        listAdadpter = new ArrayAdapter<String>(this,R.layout.listview_row,arrayList);
+        listView.setAdapter(listAdadpter);
+        listView.setOnItemClickListener(itemclick);
+    }
+    AdapterView.OnItemClickListener itemclick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String selected = (String) parent.getAdapter().getItem(position);
+            Log.d("----Click"+selected,"----Click"+selected);
+        }
+    };
+}
+=========================================================================================================================================
+
+<activity_list_view.xml>
+
+=========================================================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListViewActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                >
+                <Button
+                    android:id="@+id/close"
+                    android:text="close"
+                    android:textAllCaps="true"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+                <TextView
+                    android:id="@+id/selecteditem"
+                    android:text="selecteditem"
+                    android:textAlignment="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+    <ListView
+        android:id="@+id/listview"
+        android:background="#ccc"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </ListView>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+
+=========================================================================================================================================
+
+<listview_row.xml>
+
+=========================================================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rowtext"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical" />
+
+=========================================================================================================================================
+
+<values/strings.xml>
+
+=========================================================================================================================================
+<resources>
+    <string name="app_name">MainLauncherApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_gesture">GestureActivity</string>
+    <string name="zoomtext">
+        If you are listening to this message,\n
+        Manhattan Projects Inc. recommends that you run,\n
+        seek shelter,and "Duck and Cover!"\n
+        Have a nice day.\n
+    </string>
+
+</resources>
 =========================================================================================================================================
 <extra (to:MainActivity.xml>
 
@@ -1059,3 +2245,5 @@ public class ZoomTextActivity extends AppCompatActivity {
         super.onStop();
         Log.d("onStop...", "onStop...");
     }
+
+==========================================================================================================================================
