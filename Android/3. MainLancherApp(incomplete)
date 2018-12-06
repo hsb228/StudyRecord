@@ -1,6 +1,124 @@
+MainLauncherapp
+
+=========================================================================================================================================
+
+<MainActivity.java>
+
+=========================================================================================================================================
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+    ImageView image1;
+    ImageView image2;
+    ImageView image3;
+    ImageView image4;
+    ImageView image5;
+    ImageView image6;
+    ImageView image7;
+    ImageView image8;
+    ImageView image9;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        image1 = findViewById(R.id.image1);
+        image2 = findViewById(R.id.image2);
+        image3 = findViewById(R.id.image3);
+        image4 = findViewById(R.id.image4);
+        image5 = findViewById(R.id.image5);
+        image6 = findViewById(R.id.image6);
+        image7 = findViewById(R.id.image7);
+        image8 = findViewById(R.id.image8);
+        image9 = findViewById(R.id.image9);
+        image1.setOnClickListener(bClick);
+        image2.setOnClickListener(bClick);
+        image3.setOnClickListener(bClick);
+        image4.setOnClickListener(bClick);
+        image5.setOnClickListener(bClick);
+        image6.setOnClickListener(bClick);
+        image7.setOnClickListener(bClick);
+        image8.setOnClickListener(bClick);
+        image9.setOnClickListener(bClick);
+    }
+    Button.OnClickListener bClick = new Button.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.image1:
+                    Intent intent1 = new Intent(MainActivity.this, IntentActivity.class);
+                    MemberBean data = new MemberBean();
+                    data.setEmail("kor@naver.com");
+                    data.setName("korea");
+                    data.setPassword("1111");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", data);
+                    intent1.putExtras(bundle);
+                    startActivity(intent1);
+                    break;
+                case R.id.image2:
+                    Intent intent2 = new Intent(MainActivity.this, IntentForResultActivity.class);
+                    startActivity(intent2);
+                    break;
+                case R.id.image3:
+                    Intent intent3 = new Intent(MainActivity.this, AsyncTaskActivity.class);
+                    startActivity(intent3);
+                    break;
+                case R.id.image4:
+                    Intent intent4 = new Intent(MainActivity.this, ProgressBarActivity.class);
+                    startActivity(intent4);
+                    break;
+                case R.id.image5:
+                    Intent intent5 = new Intent(MainActivity.this, CameraControlActivity.class);
+                    startActivity(intent5);
+                    break;
+                case R.id.image6:
+                    Intent intent6 = new Intent(MainActivity.this, GestureActivity.class);
+                    startActivity(intent6);
+                    break;
+                case R.id.image7:
+                    Intent intent7 = new Intent(MainActivity.this, ZoomTextActivity.class);
+                    startActivity(intent7);
+                    break;
+                case R.id.image8:
+                    Intent intent8 = new Intent(MainActivity.this, ListViewActivity.class);
+                    startActivity(intent8);
+                    break;
+                case R.id.image9:
+                    Intent intent9 = new Intent(MainActivity.this, MemberActivity.class);
+                    startActivity(intent9);
+                    break;
+            }
+        }
+    };
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,Intent data) {
+        if (resultCode == 102) {
+            MemberBean bean = (MemberBean) data.getSerializableExtra("member");
+            Log.d("-->" + bean.getEmail(), "--->");
+            Log.d("-->" + bean.getName(), "--->");
+        }
+    }
+}
+=========================================================================================================================================
 
 <content_main.xml>
-==============================================================================================
+
+=========================================================================================================================================
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,316 +128,354 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
-    <!--start mainlayout-->
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5mm"
+    android:layout_marginRight="5mm"
+    android:layout_marginBottom="5mm"
+    android:layout_marginTop="5mm"
+    android:orientation="vertical"
+    android:weightSum="3">
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
-        <!--start row1layout-->
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="3">
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:weightSum="3"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_marginRight="3mm"
+            android:weightSum="2"
+            android:layout_weight="1"
             >
-            <!--start context1 on  row1layout-->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/image1"
+                android:src="@drawable/selector_image"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:id="@+id/iamge01"
-                    android:layout_gravity="center"
-                    android:background="@drawable/selector_img01"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:text="1"
-                    android:textSize="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <!--end context1 on  row1layout-->
-            <!--start context2 on  row1layout-->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                     <ImageView
-                        android:id="@+id/image02"
-                        android:background="@drawable/selector_img02"
-                        android:layout_gravity="center"
-                        android:clickable="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                     <TextView
-                        android:text="2"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-            </LinearLayout>
-            <!--end context2 on  row1layout-->
-            <!--start context3 on  row1layoutt-->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                    <ImageView
-                        android:src="@drawable/smith"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:text="3"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <!--end context3 on  row1layoutt-->
-            </LinearLayout>
-            <!--end  row1layout-->
-            <!--start row2layout-->
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="3"
-                android:orientation="horizontal"
-                >
-                <!--start context1 on row2layout-->
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:src="@drawable/smith"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:text="4"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <!--end context1 on row2layout-->
-                <!--start context2 on row2layout-->
-                <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:src="@drawable/smith"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:text="5"
-                    android:textSize="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                </LinearLayout>
-                <!--end context2 on row2layout-->
-                <!--start context3 on row2layout-->
-                <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:src="@drawable/smith"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:text="6"
-                    android:textSize="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                </LinearLayout>
-            <!--end context3 on row2layout-->
-            </LinearLayout>
-            <!--end row2layout-->
-            <!--start row3layout-->
-             <LinearLayout
-            android:layout_width="fill_parent"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/text1"
+            android:text="Intent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:weightSum="3"
-            android:orientation="horizontal"
-            >
-                <!--start context1 on row3layoutt-->
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:src="@drawable/smith"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:text="7"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <!--end context1 on row3layout-->
-                <!--start context2 on row3layout-->
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:src="@drawable/smith"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:text="8"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <!--end context2 on row3layout-->
-                <!--start context3 on row3layout-->
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:src="@drawable/smith"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:text="9"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <!--end context3 on row3layout-->
-            </LinearLayout>
-        `   <!--end row3layout-->
+            android:orientation="vertical"
+            android:layout_marginRight="3mm"
+            android:weightSum="2"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/image2"
+                android:src="@drawable/selector_image2"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text2"
+                android:text="IntentForResult"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="2"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/image3"
+                android:src="@drawable/selector_image3"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text3"
+                android:text="Asynctask"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
-    <!--end mainlayout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="3">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="3mm"
+            android:weightSum="2"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/image4"
+                android:src="@drawable/selector_image"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text4"
+                android:text="Progressbar"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="3mm"
+            android:weightSum="2"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/image5"
+                android:src="@drawable/selector_image2"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text5"
+                android:text="Camera"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="2"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/image6"
+                android:src="@drawable/selector_image3"
+                android:clickable="true"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/text6"
+                android:text="Gesture"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="3">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="3mm"
+                android:layout_weight="1"
+                >
+                <ImageView
+                    android:id="@+id/image7"
+                    android:src="@drawable/selector_image"
+                    android:clickable="true"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/text7"
+                    android:text="ZoomText"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="3mm"
+                android:weightSum="2"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/image8"
+                    android:src="@drawable/selector_image2"
+                    android:clickable="true"
+                    android:layout_weight="8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/text8"
+                    android:text="ListView"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="2"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/image9"
+                    android:src="@drawable/selector_image3"
+                    android:clickable="true"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/text9"
+                    android:text="Member"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+</LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
-==============================================================================================
-<select_img01.xml>
+=========================================================================================================================================
 
-==============================================================================================
+<drawable/selector_image.xml>
+
+=========================================================================================================================================
+
+<<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_pressed="true" android:drawable="@drawable/smallegg"/>
+<item android:state_focused="true" android:drawable="@drawable/smallegg"/>
+<item android:state_selected="true" android:drawable="@drawable/egg"/>
+<item android:drawable="@drawable/egg"/>
+</selector>
+
+=========================================================================================================================================
+
+<drawable/selector_image2.xml>
+
+=========================================================================================================================================
+
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@drawable/smith"/>
-    <item android:state_focused="true" android:drawable="@drawable/smith"/>
-    <item android:state_selected="true" android:drawable="@drawable/smith_s"/>
-    <item android:drawable="@drawable/smith_s"/>
+    <item android:state_pressed="true" android:drawable="@drawable/chick"/>
+    <item android:state_focused="true" android:drawable="@drawable/chick"/>
+    <item android:state_selected="true" android:drawable="@drawable/egg"/>
+    <item android:drawable="@drawable/egg"/>
 </selector>
-==============================================================================================
 
-<select_img02.xml>
-==============================================================================================
+=========================================================================================================================================
+
+<drawable/selector_image3.xml>
+
+=========================================================================================================================================
+
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@drawable/smith_s"/>
-    <item android:state_focused="true" android:drawable="@drawable/smith_s"/>
-    <item android:state_selected="true" android:drawable="@drawable/smith"/>
-    <item android:drawable="@drawable/smith"/>
+    <item android:state_pressed="true" android:drawable="@drawable/netmable"/>
+    <item android:state_focused="true" android:drawable="@drawable/netmable"/>
+    <item android:state_selected="true" android:drawable="@drawable/egg"/>
+    <item android:drawable="@drawable/egg"/>
 </selector>
-==============================================================================================
-<MainActivity.java>
 
-==============================================================================================
-public class MainActivity extends AppCompatActivity {
-    ImageView image1;
-    ImageView image2;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        image1 = findViewById(R.id.image1);
-        image2 = findViewById(R.id.image2);
+=========================================================================================================================================
 
-        image1.setOnClickListener(bClick);
-        image2.setOnClickListener(bClick);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-    Button.OnClickListener bClick = new Button.OnClickListener(){
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.image1:
-                    Intent intent = new Intent(MainActivity.this,IntentActivity.class);
-                    intent.putExtra("name","kor");
-                    intent.putExtra("pass","111");
-                    startActivity(intent);
-                    break;
-            }
-        }
-    };
-==============================================================================================
 <IntentActivity.java>
- 
-==============================================================================================
+
+=========================================================================================================================================
+
+package rmfjaskfkd.naver.com.mainlauncherapp;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 public class IntentActivity extends AppCompatActivity {
-Button close;
+    Button close;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intent);
+        Intent intent = getIntent();
+        MemberBean data = (MemberBean) intent.getSerializableExtra("data");
+        textView = findViewById(R.id.textView);
+        textView.setText(data.getEmail()+"  "+data.getName()+"  "+data.getPassword());
         close=findViewById(R.id.close);
         close.setOnClickListener(bClick);
-        }
-         Button.OnClickListener bClick = new Button.OnClickListener() {
+
+    }
+    Button.OnClickListener bClick = new Button.OnClickListener() {
+
         @Override
         public void onClick(View v) {
             finish();
         }
     };
 }
-==============================================================================================
-<Activity_Intent.xml>
 
-==============================================================================================
- <?xml version="1.0" encoding="utf-8"?>
+=========================================================================================================================================
+
+<activity_intent.xml>
+
+=========================================================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".IntentActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+             <TextView
+                android:id="@+id/textView"
+                android:text="result Text"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+    </LinearLayout>
     <Button
         android:id="@+id/close"
+        android:layout_gravity="center"
         android:text="close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>
-==============================================================================================
+    
+=========================================================================================================================================
 
 <extra (to:MainActivity.xml>
 
