@@ -1121,7 +1121,7 @@ public class SQLiteCheckActivity extends AppCompatActivity {
 
 =========================================================================================================================================
 
-<SQLiteDAO.java(incomplete)>
+<SQLiteDAO.java>
 
 =========================================================================================================================================
 
@@ -1152,9 +1152,27 @@ public class SQLiteDAO extends SQLiteOpenHelper {
     //기존의 테이블을 업데이트 할 시(database version을 바꿔줘야 작동)
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("create table cpmember as select * from member");
         db.execSQL("drop table if exists member");
-        Log.d("->onUpgrade","->onUpgrade");
         onCreate(db);
+        rewriteCopyMember(db);
+        db.execSQL("drop table if exists cpmember");
+    }
+    private void rewriteCopyMember(SQLiteDatabase db) {
+        StringBuilder sb;
+        String sql = "select * from cpmember";
+        Cursor cursor = db.rawQuery(sql,null);
+        while (cursor.moveToNext()) {
+            sb = new StringBuilder();
+            sb.append("insert into member(");
+            sb.append("name,passwd,image");
+            sb.append(")values(");
+            sb.append("'"+cursor.getString(1)+"',");
+            sb.append("'"+cursor.getString(2)+"',");
+            sb.append("'"+cursor.getString(3)+"'");
+            sb.append(")");
+            db.execSQL(sb.toString());
+        }
     }
 }
 
